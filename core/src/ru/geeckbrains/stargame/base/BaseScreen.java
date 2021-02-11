@@ -108,6 +108,7 @@ public class BaseScreen implements Screen, InputProcessor {
         System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
         touchDown(touch, pointer, button);
+
         return false;
     }
 
