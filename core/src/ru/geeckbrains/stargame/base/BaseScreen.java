@@ -11,6 +11,7 @@ import ru.geeckbrains.stargame.math.MatrixUtils;
 import ru.geeckbrains.stargame.math.Rect;
 
 
+
 public class BaseScreen implements Screen, InputProcessor {
 
     protected SpriteBatch batch;
@@ -108,7 +109,6 @@ public class BaseScreen implements Screen, InputProcessor {
         System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
         touchDown(touch, pointer, button);
-
         return false;
     }
 
@@ -153,8 +153,5 @@ public class BaseScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public boolean scrolled(int amount) {
-        System.out.println("scrolled amount = " + amount);
-        return false;
-    }
+
 }
