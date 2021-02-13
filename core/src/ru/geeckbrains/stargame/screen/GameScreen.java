@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geeckbrains.stargame.base.BaseScreen;
 import ru.geeckbrains.stargame.math.Rect;
 import ru.geeckbrains.stargame.sprite.Background;
+import ru.geeckbrains.stargame.sprite.Ship;
 import ru.geeckbrains.stargame.sprite.Star;
 
 
@@ -21,6 +22,7 @@ public class GameScreen extends BaseScreen {
 
     private Background background;
     private Star[] stars;
+    private Ship ship;
 
     @Override
     public void show() {
@@ -32,6 +34,7 @@ public class GameScreen extends BaseScreen {
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
         }
+        ship = new Ship(atlas);
     }
 
     @Override
@@ -46,6 +49,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.resize(worldBounds);
         }
+        ship.resize(worldBounds);
     }
 
     @Override
@@ -89,6 +93,7 @@ public class GameScreen extends BaseScreen {
         for (Star star : stars) {
             star.draw(batch);
         }
+        ship.draw(batch);
         batch.end();
     }
 }
