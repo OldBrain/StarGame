@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geeckbrains.stargame.base.Sprite;
 import ru.geeckbrains.stargame.math.Rect;
 import ru.geeckbrains.stargame.pool.BulletPool;
+import ru.geeckbrains.stargame.sound.StartSound;
 
 
 public class MainShip extends Sprite {
@@ -23,6 +24,7 @@ public class MainShip extends Sprite {
     private TextureRegion bulletRegion;
     private Vector2 bulletV;
     private Vector2 bulletPos;
+    private StartSound sound;
 
     private boolean pressedLeft;
     private boolean pressedRight;
@@ -40,6 +42,7 @@ public class MainShip extends Sprite {
         bulletV = new Vector2(0, 0.5f);
         bulletPos = new Vector2();
         reloadInterval = 0.15f;
+        sound = new StartSound();
     }
 
     @Override
@@ -162,8 +165,11 @@ public class MainShip extends Sprite {
 
     private void shoot() {
         Bullet bullet = bulletPool.obtain();
+        playBulletSound();
         bulletPos.set(pos.x, pos.y + getHalfHeight());
         bullet.set(this, bulletRegion, bulletPos, bulletV, 0.01f, worldBounds, 1);
     }
-
+    public void playBulletSound() {
+        sound.playLaser();
+    }
 }
