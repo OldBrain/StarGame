@@ -2,8 +2,7 @@ package ru.geeckbrains.stargame.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import ru.geeckbrains.stargame.StartGame;
-
+import ru.geekbrains.StarGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -11,6 +10,6 @@ public class DesktopLauncher {
 		config.height = 600;
 		config.width = 400;
 		config.resizable = false;
-		new LwjglApplication(new StartGame(), config);
+		new LwjglApplication(new StarGame(), config);
 	}
 }
