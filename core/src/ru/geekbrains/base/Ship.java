@@ -22,6 +22,8 @@ public class Ship extends Sprite {
     protected int damage;
 
     protected float reloadInterval;
+
+
     protected float reloadTimer;
 
     protected int hp;
@@ -29,6 +31,7 @@ public class Ship extends Sprite {
     protected Sound sound;
 
     public Ship() {
+
     }
 
     public Ship(TextureRegion region, int rows, int cols, int frames) {
@@ -38,14 +41,16 @@ public class Ship extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
+
         reloadTimer += delta;
+
         if (reloadTimer >= reloadInterval) {
             reloadTimer = 0f;
-            shoot();
+                shoot();
+            }
         }
-    }
 
-    private void shoot() {
+    protected void shoot() {
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, damage);
         sound.play();
