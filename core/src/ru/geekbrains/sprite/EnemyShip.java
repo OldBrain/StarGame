@@ -9,7 +9,7 @@ import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
 
 public class EnemyShip extends Ship {
-
+    float vnY;
     public EnemyShip(BulletPool bulletPool, Rect worldBounds, Sound sound) {
         this.bulletPool = bulletPool;
         this.worldBounds = worldBounds;
@@ -22,6 +22,13 @@ public class EnemyShip extends Ship {
 
     @Override
     public void update(float delta) {
+        if (this.getTop() > worldBounds.getTop()) {
+            v.y = v.y * 1.2f;
+            reloadTimer = reloadInterval * 0.95f;
+        } else {
+            v.y = vnY;
+        }
+
         super.update(delta);
         bulletPos.set(pos.x, pos.y - getHalfHeight());
         if (getBottom() < worldBounds.getBottom()) {
@@ -42,6 +49,7 @@ public class EnemyShip extends Ship {
     ) {
         this.regions = regions;
         this.v.set(v0);
+        vnY=v0.y;
         this.bulletRegion = bulletRegion;
         this.bulletHeight = bulletHeight;
         this.bulletV.set(bulletV);
