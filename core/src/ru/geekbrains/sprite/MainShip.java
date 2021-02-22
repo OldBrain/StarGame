@@ -35,7 +35,7 @@ public class MainShip extends Ship {
         damage = 1;
         reloadInterval = 0.2f;
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
-        hp = 100;
+        hp = 1;
     }
 
     @Override
@@ -161,4 +161,7 @@ public class MainShip extends Ship {
         v.setZero();
     }
 
+    public int getHP() {
+        return hp;
+    }
 }
