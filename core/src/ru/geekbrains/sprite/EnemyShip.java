@@ -12,16 +12,24 @@ import ru.geekbrains.pool.ExplosionPool;
 public class EnemyShip extends Ship {
 
     private static final float START_V_Y = -0.3f;
+    int maxHp;
 
-    public EnemyShip(BulletPool bulletPool, ExplosionPool explosionPool, Rect worldBounds, Sound sound) {
+    public EnemyShip(BulletPool bulletPool,
+                     ExplosionPool explosionPool,
+                     Rect worldBounds,
+                     Sound sound,
+                     HpBar hpBar) {
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
         this.worldBounds = worldBounds;
         this.sound = sound;
+        this.hpBar = hpBar;
         v = new Vector2();
         v0 = new Vector2();
         bulletPos = new Vector2();
         bulletV = new Vector2();
+        this.hpBar = hpBar;
+        hpBar.setBarWidth(getWidth());
     }
 
     @Override
@@ -36,7 +44,10 @@ public class EnemyShip extends Ship {
         if (getBottom() < worldBounds.getBottom()) {
             destroy();
         }
-    }
+
+        hpBar.setPosition(pos.x + getHalfWidth(), pos.y + getHalfHeight()/3);
+        hpBar.setWidth((getWidth()/(float) maxHp)*(float) hp);
+        }
 
     public void set(
             TextureRegion[] regions,
@@ -47,7 +58,8 @@ public class EnemyShip extends Ship {
             int damage,
             float reloadInterval,
             float height,
-            int hp
+            int hp,
+            int maxHp
     ) {
         this.regions = regions;
         this.v0.set(v0);
@@ -59,6 +71,7 @@ public class EnemyShip extends Ship {
         setHeightProportion(height);
         this.hp = hp;
         v.set(0, START_V_Y);
+        this.maxHp = maxHp;
     }
 
     public boolean isBulletCollision(Rect bullet) {
