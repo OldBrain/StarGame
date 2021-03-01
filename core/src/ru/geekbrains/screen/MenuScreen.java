@@ -3,28 +3,21 @@ package ru.geekbrains.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.base.BaseScreen;
 import ru.geekbrains.math.Rect;
-import ru.geekbrains.sprite.Background;
-import ru.geekbrains.sprite.ButtonExit;
-import ru.geekbrains.sprite.ButtonPlay;
-import ru.geekbrains.sprite.Star;
+import ru.geekbrains.sprite.*;
 
 public class MenuScreen extends BaseScreen {
 
     private static final int STAR_COUNT = 256;
+    private static final int ASTEROID_COUNT =15;
 
     private final Game game;
 
-    private Texture bg;
-    private TextureAtlas atlas;
-
-    private Background background;
-    private Star[] stars;
+    private Star3d[] stars;
+    private Asteroid[] asteroids;
 
     private ButtonExit buttonExit;
     private ButtonPlay buttonPlay;
@@ -36,13 +29,15 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void show() {
         super.show();
-        bg = new Texture("textures/bg.png");
-        atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.tpack"));
-        background = new Background(bg);
-        stars = new Star[STAR_COUNT];
+        stars = new Star3d[STAR_COUNT];
+        asteroids = new Asteroid[ASTEROID_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
-            stars[i] = new Star(atlas);
+            stars[i] = new Star3d(atlas);
         }
+        for (int i = 0; i < ASTEROID_COUNT; i++) {
+            asteroids[i] = new Asteroid(fonAtlas);
+        }
+
         buttonExit = new ButtonExit(atlas);
         buttonPlay = new ButtonPlay(atlas, game);
     }
@@ -57,15 +52,20 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bg.dispose();
         atlas.dispose();
+        fonAtlas.dispose();
         super.dispose();
     }
 
     @Override
     public void resize(Rect worldBounds) {
         background.resize(worldBounds);
-        for (Star star : stars) {
+        for (Star3d star : stars) {
             star.resize(worldBounds);
         }
+        for (Asteroid a:asteroids ) {
+            a.resize(worldBounds);
+        }
+
         buttonExit.resize(worldBounds);
         buttonPlay.resize(worldBounds);
     }
@@ -85,9 +85,13 @@ public class MenuScreen extends BaseScreen {
     }
 
     private void update(float delta) {
-        for (Star star : stars) {
+        for (Star3d star : stars) {
             star.update(delta);
+            }
+        for (Asteroid a:asteroids ) {
+            a.update(delta);
         }
+
     }
 
     private void draw() {
@@ -95,8 +99,11 @@ public class MenuScreen extends BaseScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        for (Star star : stars) {
+        for (Star3d star : stars) {
             star.draw(batch);
+        }
+        for (Asteroid a:asteroids ) {
+            a.draw(batch);
         }
         buttonExit.draw(batch);
         buttonPlay.draw(batch);

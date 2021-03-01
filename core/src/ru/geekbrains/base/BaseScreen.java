@@ -3,16 +3,24 @@ package ru.geekbrains.base;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.math.MatrixUtils;
 import ru.geekbrains.math.Rect;
+import ru.geekbrains.sprite.Background;
 
 public class BaseScreen implements Screen, InputProcessor {
 
+    protected TextureAtlas atlas;
+    protected TextureAtlas mainAtlas;
+    protected TextureAtlas fonAtlas;
+    protected Background background;
+    protected Texture bg;
     protected SpriteBatch batch;
 
     private Rect screenBounds;
@@ -26,7 +34,6 @@ public class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public void show() {
-        System.out.println("show");
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
         screenBounds = new Rect();
@@ -35,6 +42,11 @@ public class BaseScreen implements Screen, InputProcessor {
         worldToGl = new Matrix4();
         screenToWorld = new Matrix3();
         touch = new Vector2();
+        bg = new Texture("textures/bg.png");
+        mainAtlas = new TextureAtlas(Gdx.files.internal("textures/mainAtlas.tpack"));
+        fonAtlas = new TextureAtlas(Gdx.files.internal("textures/fon.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("textures/menuAtlas.tpack"));
+        background = new Background(bg);
     }
 
     @Override
@@ -44,7 +56,6 @@ public class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public void resize(int width, int height) {
-        System.out.println("resize width = " + width + " height = " + height);
         screenBounds.setSize(width, height);
         screenBounds.setLeft(0);
         screenBounds.setBottom(0);
@@ -65,80 +76,83 @@ public class BaseScreen implements Screen, InputProcessor {
 
     @Override
     public void pause() {
-        System.out.println("pause");
+//        System.out.println("pause");
     }
 
     @Override
     public void resume() {
-        System.out.println("resume");
+//        System.out.println("resume");
     }
 
     @Override
     public void hide() {
-        System.out.println("hide");
+//        System.out.println("hide");
         dispose();
     }
 
     @Override
     public void dispose() {
-        System.out.println("dispose");
+        bg.dispose();
         batch.dispose();
+        fonAtlas.dispose();
+        mainAtlas.dispose();
+        atlas.dispose();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println("keyDown keycode = " + keycode);
+//        System.out.println("keyDown keycode = " + keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
-        System.out.println("keyUp keycode = " + keycode);
+//        System.out.println("keyUp keycode = " + keycode);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        System.out.println("keyTyped character = " + character);
+//        System.out.println("keyTyped character = " + character);
         return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
+//        System.out.println("touchDown screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
         touchDown(touch, pointer, button);
         return false;
     }
 
     public boolean touchDown(Vector2 touch, int pointer, int button) {
-        System.out.println("touchDown touchX = " + touch.x + " touchY = " + touch.y);
+//        System.out.println("touchDown touchX = " + touch.x + " touchY = " + touch.y);
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
+//        System.out.println("touchUp screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
         touchUp(touch, pointer, button);
         return false;
     }
 
     public boolean touchUp(Vector2 touch, int pointer, int button) {
-        System.out.println("touchUp touchX = " + touch.x + " touchY = " + touch.y);
+//        System.out.println("touchUp touchX = " + touch.x + " touchY = " + touch.y);
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        System.out.println("touchDragged screenX = " + screenX + " screenY = " + screenY);
+//        System.out.println("touchDragged screenX = " + screenX + " screenY = " + screenY);
         touch.set(screenX, Gdx.graphics.getHeight() - screenY).mul(screenToWorld);
         touchDragged(touch, pointer);
         return false;
     }
 
     public boolean touchDragged(Vector2 touch, int pointer) {
-        System.out.println("touchUp touchX = " + touch.x + " touchY = " + touch.y);
+//        System.out.println("touchUp touchX = " + touch.x + " touchY = " + touch.y);
         return false;
     }
 
@@ -153,7 +167,7 @@ public class BaseScreen implements Screen, InputProcessor {
     }
 
     public boolean scrolled(int amount) {
-        System.out.println("scrolled amount = " + amount);
+//        System.out.println("scrolled amount = " + amount);
         return false;
     }
 }

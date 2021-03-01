@@ -9,6 +9,7 @@ import ru.geekbrains.base.Ship;
 import ru.geekbrains.math.Rect;
 import ru.geekbrains.pool.BulletPool;
 import ru.geekbrains.pool.ExplosionPool;
+import ru.geekbrains.utils.Font;
 
 public class MainShip extends Ship {
 
@@ -26,7 +27,7 @@ public class MainShip extends Ship {
 
     private float xv;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Font font,HpBar hpBar) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
         this.explosionPool = explosionPool;
@@ -40,7 +41,19 @@ public class MainShip extends Ship {
         reloadInterval = 0.2f;
         sound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
         hp = HP;
-    }
+        this.hpBar = hpBar;
+//        hpBar.setBarWidth(0.1f);
+        hpBar.setWidth((getWidth()/(float) HP)*(float) hp);
+      }
+
+    public void heal(int heal) {
+        acceptedDamage = heal;
+        if (hp + heal > HP) {
+            hp = HP;
+        } else {
+            hp += heal;
+        }
+       }
 
     public void startNewGame() {
         hp = HP;
@@ -72,6 +85,8 @@ public class MainShip extends Ship {
             setLeft(worldBounds.getLeft());
             stop();
         }
+        hpBar.setPosition(pos.x + getHalfWidth(), pos.y + getHalfHeight()/3);
+        hpBar.setWidth((getWidth()/(float) HP)*(float) hp);
     }
 
     @Override
@@ -162,10 +177,6 @@ public class MainShip extends Ship {
                 || bullet.getBottom() > pos.y
                 || bullet.getTop() < getBottom()
         );
-    }
-
-    public float getXv() {
-        return xv;
     }
 
     private void moveRight() {

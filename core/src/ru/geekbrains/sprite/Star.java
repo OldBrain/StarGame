@@ -10,7 +10,7 @@ import ru.geekbrains.math.Rnd;
 public class Star extends Sprite {
 
     protected final Vector2 v;
-    private Rect worldBounds;
+    protected Rect worldBounds;
 
     public Star(TextureAtlas atlas) {
         super(atlas.findRegion("star"));

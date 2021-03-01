@@ -31,6 +31,7 @@ public class Explosion extends Sprite {
             animateTimer = 0f;
             if (++frame == regions.length) {
                 destroy();
+
             }
         }
     }
